@@ -3,9 +3,23 @@
 
 #include "stdafx.h"
 
+#include "BiThrNode.h"
+#include "BiThr.h"
+
+void Test()
+{
+	BiThr *bt = new BiThr();
+	char preOrder[] = { '-', '+', 'a', '*', 'b', 'c', '/', 'd', 'e' };
+	char inOrder[] = { 'a', '+', 'b', '*', 'c', '-', 'd', '/', 'e' };
+	bt->createBiThr(preOrder, inOrder, 9);
+	bt->inOrderThreading();	//ÏßË÷»¯
+	bt->inOrderTraverse_Thr();	//±éÀú
+}
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	Test();
 	return 0;
 }
 

@@ -14,6 +14,9 @@
 
 BiThrNode::BiThrNode()
 {
+	data = NULL;
+	lchild = rchild =nullptr;
+	LTag = RTag = PointerTag::Thread;
 }
 
 
