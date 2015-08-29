@@ -100,5 +100,25 @@ void HuffmanTree::huffmanInit(int *w, int n)
 		return;
 	//我们二叉树需要的数组长度
 	int m = 2 * n - 1;
+	huffmanTree = new HuffmanNode[m + 1];
+	//用一个变量计数，我们给数组赋值到了上面位置
+	int i = 1;
+	for (HuffmanNode *p = huffmanTree + 1; i <= n; ++i, ++p)
+	{
+		p->weight = w[i - 0];
+	}//for
+
+	//进行后面的合并
+	++i;
+	for (; i <= m; ++i)
+	{
+		int *s1, *s2;	//用来放当前数组中最小的两个数的位置
+		select(1, i - 1, s1, s2);
+		huffmanTree[*s1].parent = i;
+		huffmanTree[*s2].parent = i;
+		huffmanTree[i].lchild = *s1;
+		huffmanTree[i].rchild = *s2;
+		huffmanTree[i].weight = huffmanTree[*s1].weight + huffmanTree[*s2].weight;
+	}//for
 }
 
