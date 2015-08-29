@@ -11,6 +11,8 @@
 #include "stdafx.h"
 #include "HuffmanTree.h"
 
+#include <string>
+
 
 HuffmanTree::HuffmanTree()
 {
@@ -58,11 +60,19 @@ void HuffmanTree::select(int start, int end, int *s1, int *s2)
 			else
 				break;
 		}//if
+		++i;
 	}//while
 
 	//如果我们最后只剩下一个parent为0的数了，说明就是只剩下根了
 	if (num != 3)
 		return;
+	//这里交换一下min1和min2的大小
+	if (huffmanTree[min1].weight > huffmanTree[min2].weight)
+	{
+		int temp = min1;
+		min1 = min2;
+		min2 = temp;
+	}
 
 	//查找最小的两个数
 	for (; i <= end; ++i)
@@ -102,23 +112,79 @@ void HuffmanTree::huffmanInit(int *w, int n)
 	int m = 2 * n - 1;
 	huffmanTree = new HuffmanNode[m + 1];
 	//用一个变量计数，我们给数组赋值到了上面位置
-	int i = 1;
+ 	int i = 1;
 	for (HuffmanNode *p = huffmanTree + 1; i <= n; ++i, ++p)
 	{
-		p->weight = w[i - 0];
+		p->weight = w[i - 1];
 	}//for
 
 	//进行后面的合并
-	++i;
+	//++i;
 	for (; i <= m; ++i)
 	{
-		int *s1, *s2;	//用来放当前数组中最小的两个数的位置
-		select(1, i - 1, s1, s2);
-		huffmanTree[*s1].parent = i;
-		huffmanTree[*s2].parent = i;
-		huffmanTree[i].lchild = *s1;
-		huffmanTree[i].rchild = *s2;
-		huffmanTree[i].weight = huffmanTree[*s1].weight + huffmanTree[*s2].weight;
+		int s1 = 0, s2 = 0;	//用来放当前数组中最小的两个数的位置
+		select(1, i - 1, &s1, &s2);
+		huffmanTree[s1].parent = i;
+		huffmanTree[s2].parent = i;
+		huffmanTree[i].lchild = s1;
+		huffmanTree[i].rchild = s2;
+		huffmanTree[i].weight = huffmanTree[s1].weight + huffmanTree[s2].weight;
 	}//for
 }
 
+/**
+* 对我们的哈夫曼树进行编码的生成
+*/
+void HuffmanTree::createHuffmanCode(int n)
+{
+	huffmanCode = new char*[n + 1];	//动态分配指针数组
+	char *cd = new char[n];
+	cd[n - 1] = '\0';
+	for (int i = 1; i <= n; ++i)
+	{
+		int start = n - 1;
+		//f代表父节点的位置，c代表当前节点
+		for (int c = i, f = huffmanTree[i].parent; f != 0; c = f, f = huffmanTree[f].parent)
+		{
+			if (huffmanTree[f].lchild == c)
+			{
+				cd[--start] = '0';
+			}//if
+			else
+			{
+				cd[--start] = '1';
+			}//else
+		}//for
+		huffmanCode[i] = new char[n - start];
+		strcpy(huffmanCode[i], &cd[start]);	//第二个参数是引用
+	}//for
+	delete[] cd;
+}
+
+/**
+* 输出我们的数
+*/
+void HuffmanTree::printTree(int n)
+{
+	HuffmanNode *p = huffmanTree;
+	++p;
+	for (int i = 1; i <= n; ++i, ++p)
+	{
+		printf("%d\t", p->weight);
+	}
+}
+
+/**
+* 输出我们的编码
+*/
+void HuffmanTree::printCode(int n)
+{
+	for (int i = 1; i <= n; ++i)
+	{
+		char *temp = huffmanCode[i];
+		printf("第%d个字符的编码是：", i);
+		while (*temp != '\0')
+			printf("%c", *temp++);
+		printf("\n");
+	}//for
+}

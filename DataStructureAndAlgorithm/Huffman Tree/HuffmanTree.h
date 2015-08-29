@@ -37,6 +37,21 @@ public:
 	 */
 	void huffmanInit(int *w, int n);
 
+	/**
+	 * 对我们的哈夫曼树进行编码的生成
+	 */
+	void createHuffmanCode(int n);
+
+	/**
+	 * 输出我们的数
+	 */
+	void printTree(int n);
+
+	/**
+	 * 输出我们的编码
+	 */
+	void printCode(int n);
+
 private:
 	/**
 	 * 定义二维数组，用来存放哈夫曼编码
