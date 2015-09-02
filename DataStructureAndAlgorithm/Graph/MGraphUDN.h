@@ -8,25 +8,33 @@
 
 ****************************************************************************/
 
-#ifndef _MGRAPH_H_
-#define _MGRAPH_H_
+#ifndef _MGRAPHUDN_H_
+#define _MGRAPHUDN_H_
 
 #include <fstream>
 #include <string>
 #include <iostream>
 
-class MGraph
+//我们的无向网类
+class MGraphUDN
 {
 public:
 	static const int MAX_VERTEX_NUM = 26;	//我们图的最多顶点个数
-	MGraph();
-	~MGraph();
+	MGraphUDN();
+	~MGraphUDN();
 
 private:
 	char vexs[MAX_VERTEX_NUM];	//存放顶点
 	int arcs[MAX_VERTEX_NUM][MAX_VERTEX_NUM];//存放矩阵数组
 	int vexnum;	//顶点个数
 	int arcnum;		//弧的个数，也就是我们图的边数
+
+	//我们用一个函数来确定我们这个顶点的位置
+	int locateVex(char u);
+	//从文件中读取数据初始化我们的成员变量
+	void initData(std::string filename);
+	//得到我们：分割的位置
+	int getIndexOfFlag(char *begin, char *end, char flag);
 };
 
-#endif //_MGRAPH_H_
+#endif //_MGRAPHUDN_H_
