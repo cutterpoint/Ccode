@@ -52,6 +52,24 @@ void Test2()
 	cout << arcnum << endl;
 }
 
+void Test3(char buf[], int length)
+{
+	string vexs[100];
+	//第二行是我们的顶点向量，我们保存到string vexs[MAX_VERTEX_NUM]中
+	//我们循环遍历，碰到一个：，我们就取一个，最后再取出来一个
+	int k = 0;	//用来计数是第几个顶点
+	char flag = ':';	//我们分隔的标准
+	for (int j1 = 0, j2 = 0; j1 <= length; ++j1)
+	{
+		if (buf[j1] == flag)
+		{
+			std::string s(buf, j2, j1 - j2); //从buf下标为j2的字符开始，拷贝j1-j2个字符  
+			vexs[k++] = s;
+			j2 = j1 + 1;
+		}//if
+	}//for
+}
+
 void Test()
 {
 	std::string line = "6:10";
@@ -59,11 +77,16 @@ void Test()
 	char *end = &line[line.size()-1];
 	char flag = ':';
 	cout << getIndexOfFlag(begin, end, flag) << endl;
+	//=================================
+	char buf[17] = { 'v', '1', ':', 'v', '2', ':', 'v', '3', ':', 'v', '4', ':', 'v', '5', ':', 'v', '6' };
+	int length = 17;
+	Test3(buf, length);
 }
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	Test2();
+	Test();
 	return 0;
 }
 

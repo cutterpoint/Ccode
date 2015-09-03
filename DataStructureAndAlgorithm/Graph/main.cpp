@@ -9,10 +9,21 @@
 ****************************************************************************/
 
 #include "stdafx.h"
+#include "MGraphUDN.h"
 
+#include <iostream>
+
+using namespace std;
+
+void Test()
+{
+	MGraphUDN *G = new MGraphUDN("source1.txt");
+	G->createUDN();
+}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	Test();
 	return 0;
 }
 
