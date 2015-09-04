@@ -30,6 +30,11 @@ public:
 	 */
 	void createUDN();
 
+	/**
+	 * 输出矩阵
+	 */
+	void printMaxtrix();
+
 private:
 	std::string vexs[MAX_VERTEX_NUM];	//存放顶点
 	int arcs[MAX_VERTEX_NUM][MAX_VERTEX_NUM];//存放矩阵数组

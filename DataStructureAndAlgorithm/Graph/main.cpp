@@ -19,6 +19,8 @@ void Test()
 {
 	MGraphUDN *G = new MGraphUDN("source1.txt");
 	G->createUDN();
+	//Êä³ö¾ØÕó
+	G->printMaxtrix();
 }
 
 int _tmain(int argc, _TCHAR* argv[])

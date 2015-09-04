@@ -10,6 +10,7 @@
 
 #include "stdafx.h"
 #include "MGraphUDN.h"
+#include <iostream>
 
 
 MGraphUDN::MGraphUDN()
@@ -167,7 +168,7 @@ void MGraphUDN::initvvw(char *buf, int length)
 	}//for
 	for (int i1 = 0, i2 = 0; i1 <= length; ++i1)
 	{
-		if (buf[i1] = ' ' || i1 == length)
+		if (buf[i1] == ' ' || i1 == length)
 		{
 			//一个分割v1:v2:5,
 			std::string tempS(buf, i2, i1 - i2);
@@ -190,4 +191,19 @@ void MGraphUDN::initMatrix(std::string v1, std::string v2, int weight)
 	int i = this->locateVex(v1);
 	int j = this->locateVex(v2);
 	this->arcs[i][j] = this->arcs[j][i] = weight;
+}
+
+/**
+* 输出矩阵
+*/
+void MGraphUDN::printMaxtrix()
+{
+	for (int i = 0; i < vexnum; ++i)
+	{
+		for (int j = 0; j < vexnum; ++j)
+		{
+			std::cout << arcs[i][j] << "\t";
+		}//for
+		std::cout << std::endl;
+	}//for
 }
