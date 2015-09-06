@@ -15,9 +15,9 @@
 
 using namespace std;
 
-void Test()
+void Test1()
 {
-	MGraphUDN *G = new MGraphUDN("source1.txt");
+	MGraphUDN *G = new MGraphUDN("resource1.txt");
 	G->createUDN();
 	//Êä³ö¾ØÕó
 	G->printMaxtrix();
@@ -25,7 +25,7 @@ void Test()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	Test();
+	Test1();
 	return 0;
 }
 
