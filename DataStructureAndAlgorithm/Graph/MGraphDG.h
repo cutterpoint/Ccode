@@ -19,6 +19,7 @@ class ArcBox;	//我们的弧节点类
 //顶点节点
 class VexNode
 {
+	friend class MGraphDG;
 public:
 	VexNode(){}
 	~VexNode();
@@ -37,6 +38,7 @@ private:
 //我们的弧节点类
 class ArcBox
 {
+	friend class MGraphDG;
 public:
 	ArcBox(){}
 	~ArcBox();
@@ -98,6 +100,11 @@ private:
 	 *  初始化我们各个弧和十字链表
 	 */
 	void initLink(std::string line);
+
+	/**
+	 *  得到我们的向量在数组中的位置
+	 */
+	int locateVex(std::string name);
 };
 
 
