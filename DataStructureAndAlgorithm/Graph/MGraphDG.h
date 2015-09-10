@@ -68,6 +68,7 @@ public:
 	 */
 	static const int MAX_VERTEX_NUM = 26;
 	MGraphDG();
+	MGraphDG(std::string filename);
 	~MGraphDG();
 private:
 

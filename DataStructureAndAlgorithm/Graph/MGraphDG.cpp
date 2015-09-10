@@ -34,7 +34,12 @@ ArcBox::~ArcBox()
 ///////////////////我们的十字链表存储表示,我们的有向图类的声明///////////////////////
 MGraphDG::MGraphDG()
 {
+}
 
+
+MGraphDG::MGraphDG(std::string filename)
+{
+	this->readFile(filename);
 }
 
 

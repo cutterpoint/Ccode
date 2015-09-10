@@ -10,6 +10,7 @@
 
 #include "stdafx.h"
 #include "MGraphUDN.h"
+#include "MGraphDG.h"
 
 #include <iostream>
 
@@ -23,9 +24,16 @@ void Test1()
 	G->printMaxtrix();
 }
 
+void Test2()
+{
+	MGraphDG *G = new MGraphDG("resource2.txt");
+	cout << "!!" << endl;
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	Test1();
+	Test2();
 	return 0;
 }
 
