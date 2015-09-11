@@ -11,6 +11,7 @@
 #include "stdafx.h"
 #include "MGraphUDN.h"
 #include "MGraphDG.h"
+#include "MGraphAL.h"
 
 #include <iostream>
 
@@ -27,6 +28,9 @@ void Test1()
 void Test2()
 {
 	MGraphDG *G = new MGraphDG("resource2.txt");
+	cout << "!!" << endl;
+	MGraphAL *GAL = new MGraphAL();
+	GAL->create("resource2.txt");
 	cout << "!!" << endl;
 }
 

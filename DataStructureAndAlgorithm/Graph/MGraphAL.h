@@ -14,6 +14,7 @@
 
 class ArcNode
 {
+	friend class MGraphAL;
 public:
 	ArcNode(){}
 	~ArcNode();
@@ -37,6 +38,7 @@ private:
 
 class VNode
 {
+	friend class MGraphAL;
 public:
 	VNode(){}
 	~VNode();
@@ -63,7 +65,37 @@ public:
 	MGraphAL();
 	~MGraphAL();
 
+	/**
+	 * 创建我们的邻接表
+	 */
+	void create(std::string filename);
+
 private:
+	/**
+	 * 初始化我们的顶点个数，根据字符串
+	 */
+	void intiVAnum(std::string line);
+
+	/**
+	 * 初始化我们的顶点数组
+	 */
+	void initVertices(std::string line);
+
+	/**
+	 *  初始化我们的邻接表的一条弧
+	 */
+	void initAdjacencyOne(std::string record);
+
+	/**
+	 *  初始化我们的邻接表的弧
+	 */
+	void initAdjacencyLink(std::string line);
+
+	/**
+	 *  定位我们的这个向量名称的位置
+	 */
+	int locateVex(std::string name);
+
 	/**
 	 *  存放我们的顶点向量
 	 */
