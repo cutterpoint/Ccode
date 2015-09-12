@@ -13,6 +13,7 @@
 #include <fstream>
 #include <exception>
 #include <sstream>
+#include <iostream>
 
 
 ArcNode::~ArcNode()
@@ -98,6 +99,8 @@ void MGraphAL::initVertices(std::string line)
 	for (int i = 0; i < vexnum; ++i)
 	{
 		ss >> vertices[i].name;
+		//这里也注意一下，把这个指针初始化为nullptr
+		vertices[i].firstarc = nullptr;
 	}//for
 }
 
@@ -146,3 +149,50 @@ void MGraphAL::initAdjacencyLink(std::string line)
 		this->initAdjacencyOne(record);
 	}//while
 }
+
+/**
+*  对我们的图进行深度优先遍历
+*/
+void MGraphAL::DFSTraverse()
+{
+	bool *visited = new bool[vexnum];
+	//初始化我们的判断是否遍历过的数组
+	for (int i = 0; i < vexnum; ++i)
+	{
+		visited[i] = false;
+	}//for
+	//开始选一个起点进行深度遍历
+	for (int i = 0; i < vexnum; ++i)
+	{
+		if (visited[i] == false)
+		{
+			//深度遍历
+			this->DFS(i, visited);
+		}//if
+	}//for
+}
+
+void MGraphAL::DFS(int v, bool *visited)
+{
+	if (v < 0 || v >= vexnum)
+		return;
+	visited[v] = true;
+	this->visit(v);
+	if (vertices[v].firstarc == nullptr)
+		return;
+	//进行深度递归
+	for (ArcNode *w = vertices[v].firstarc; w->nextarc != nullptr; w = w->nextarc)
+	{
+		if (visited[w->adjvex] == false)
+		{
+			//如果这个节点没有被访问过
+			DFS(w->adjvex, visited);
+		}//if
+	}//for
+}
+
+void MGraphAL::visit(int v)
+{
+	std::cout << vertices[v].name << "\t";
+}
+

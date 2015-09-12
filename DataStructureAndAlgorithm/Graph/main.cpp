@@ -32,6 +32,7 @@ void Test2()
 	MGraphAL *GAL = new MGraphAL();
 	GAL->create("resource2.txt");
 	cout << "!!" << endl;
+	GAL->DFSTraverse();
 }
 
 int _tmain(int argc, _TCHAR* argv[])

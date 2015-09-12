@@ -16,7 +16,7 @@ class ArcNode
 {
 	friend class MGraphAL;
 public:
-	ArcNode(){}
+	ArcNode(){ nextarc = nullptr; }
 	~ArcNode();
 
 private:
@@ -70,7 +70,22 @@ public:
 	 */
 	void create(std::string filename);
 
+	/**
+	 *  对我们的图进行深度优先遍历
+	 */
+	void DFSTraverse();
+
 private:
+	/**
+	 *  访问我们的这个节点
+	 */
+	void visit(int v);
+
+	/**
+	 * 以我们的一个起点进行深度遍历
+	 */
+	void DFS(int v, bool *visited);
+
 	/**
 	 * 初始化我们的顶点个数，根据字符串
 	 */
