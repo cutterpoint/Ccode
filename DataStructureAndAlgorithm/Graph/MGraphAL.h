@@ -75,6 +75,11 @@ public:
 	 */
 	void DFSTraverse();
 
+	/**
+	 *  对我们的图进行广度优先遍历
+	 */
+	void BFSTraverse();
+
 private:
 	/**
 	 *  访问我们的这个节点

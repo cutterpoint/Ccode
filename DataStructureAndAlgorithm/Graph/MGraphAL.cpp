@@ -14,6 +14,7 @@
 #include <exception>
 #include <sstream>
 #include <iostream>
+#include <queue>
 
 
 ArcNode::~ArcNode()
@@ -181,7 +182,7 @@ void MGraphAL::DFS(int v, bool *visited)
 	if (vertices[v].firstarc == nullptr)
 		return;
 	//进行深度递归
-	for (ArcNode *w = vertices[v].firstarc; w->nextarc != nullptr; w = w->nextarc)
+	for (ArcNode *w = vertices[v].firstarc; w != nullptr; w = w->nextarc)
 	{
 		if (visited[w->adjvex] == false)
 		{
@@ -194,5 +195,67 @@ void MGraphAL::DFS(int v, bool *visited)
 void MGraphAL::visit(int v)
 {
 	std::cout << vertices[v].name << "\t";
+}
+
+void MGraphAL::BFSTraverse()
+{
+	bool *visited = new bool[vexnum];
+	for (int i = 0; i < vexnum; ++i)
+	{
+		visited[i] = false;
+	}//for
+
+	//我们创建一个队列，用来保存被访问的父节点，广度优先，我们先把父节点访问完，再依次按照队列进行访问
+	std::queue<int> *Q = new std::queue<int>();
+	//我们从图的一个顶点开始访问
+	for (int i = 0; i < vexnum; ++i)
+	{
+		if (!visited[i])
+		{
+			//这个节点没有被访问，我们把他进行入队
+			//先进行访问，以免，后面的顶点，有的已经进入队列，但是还没有访问，可能会重复入队
+			visited[i] = true; visit(i);
+			Q->push(i);
+			//只要队列不为空，我们就访问队列中的元素
+			while (!Q->empty())
+			{
+				int u = Q->front(); Q->pop();
+				//这个节点是否有子节点
+				if (vertices[u].firstarc == nullptr)
+				{
+					//如果没有子节点，这个节点，也就是没有出度的对象了，那么我们就退出
+					break;
+				}//if
+				//这个节点的子节点，全部访问
+				//ArcNode *w = vertices[u].firstarc;
+				//while (w != nullptr)
+				//{
+					//出度对象是否已经被访问检查
+				//	if (!visited[w->adjvex])
+				//	{
+						//然后我们把我们访问的这个节点，加入到队列中，等这一层访问完了之后，队列出队的顶点就是出度对象的节点
+						//从而广度对下一层次的顶点进行访问
+						//这里是吧当前顶点的所有子节点，全部入队
+				//		visited[w->adjvex] = true; visit(w->adjvex);
+				//		Q->push(w->adjvex);
+				//	}//if
+				//	w = w->nextarc;
+				//}//while
+				
+				for (ArcNode *w = vertices[u].firstarc; w != nullptr; w = w->nextarc)
+				{
+					//出度对象是否已经被访问检查
+					if (!visited[w->adjvex])
+					{
+						//然后我们把我们访问的这个节点，加入到队列中，等这一层访问完了之后，队列出队的顶点就是出度对象的节点
+						//从而广度对下一层次的顶点进行访问
+						//这里是吧当前顶点的所有子节点，全部入队
+						visited[w->adjvex] = true; visit(w->adjvex);
+						Q->push(w->adjvex);
+					}//if
+				}//for
+			}//while
+		}//if
+	}//for
 }
 

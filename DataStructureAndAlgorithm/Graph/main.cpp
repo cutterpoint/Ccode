@@ -28,11 +28,13 @@ void Test1()
 void Test2()
 {
 	MGraphDG *G = new MGraphDG("resource2.txt");
-	cout << "!!" << endl;
+	cout << endl;
 	MGraphAL *GAL = new MGraphAL();
 	GAL->create("resource2.txt");
-	cout << "!!" << endl;
+	cout << "深度优先" << endl;
 	GAL->DFSTraverse();
+	cout << "\n广度优先" << endl;
+	GAL->BFSTraverse();
 }
 
 int _tmain(int argc, _TCHAR* argv[])
