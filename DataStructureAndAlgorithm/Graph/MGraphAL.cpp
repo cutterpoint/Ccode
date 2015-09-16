@@ -259,3 +259,87 @@ void MGraphAL::BFSTraverse()
 	}//for
 }
 
+
+/**
+ * 把我们的邻接表图，改造成一个以孩子兄弟链表的存储结构
+ */
+CSNode** MGraphAL::DFSForest()
+{
+	//建立无向图的深度优先生成森林的链表
+	CSNode **root = new CSNode*();
+	CSNode *t = nullptr, *q = nullptr;
+	bool *visited = new bool[vexnum];	//用来判断这个节点是否已经被遍历过
+	for (int i = 0; i < vexnum; ++i)
+	{
+		visited[i] = false;
+	}//for
+
+	//遍历所有的节点
+	int n = 0;
+	for (int i = 0; i < vexnum; ++i)
+	{
+		t = root[n];
+		if (!visited[i])
+		{
+			CSNode *p = new CSNode();
+			p->name = vertices[i].name;	//得到名字
+			//判断根节点是不是空的
+			if (t == nullptr)
+			{
+				t = p;
+				q = t;
+			}//if
+			else
+			{
+				//如果不是第一棵生成树的根
+				q->nextSibling = p;
+			}//else
+
+			q = p;	//把q指向下一个兄弟
+			DFSTree(i, p, visited);
+			++n;
+		}//if
+	}//for
+
+	return root;
+}
+
+/**
+ *这个函数的作用是从第V个顶点出发深度优先遍历图G，建立以T为根的生成树
+ * 深度优先遍历
+ */
+void MGraphAL::DFSTree(int v, CSNode *r, bool *visited)
+{
+	visited[v] = true;	//把当前节点访问掉
+	//设定一个标志，用来确定是不是第一个t下面第一个子树
+	bool first = true;
+	CSNode *q = nullptr;
+	//访问的当前顶点是否有联通量
+	if (vertices[v].firstarc == nullptr)
+		return;
+	for (ArcNode *w = vertices[v].firstarc; w != nullptr; w = w->nextarc)
+	{
+		//首先查看这个节点是否已经被查看
+		if (!visited[w->adjvex])
+		{
+			CSNode *p = new CSNode();
+			p->name = vertices[w->adjvex].name;
+			//看看是不是第一次访问
+			if (first)
+			{
+				//如果是这个顶点的开始的第一个节点，那么就作为节点的孩子节点
+				r->firstchild = p;
+				first = false;
+				q = r;	//那么我们的指针q指向我们的前面的父节点
+			}//if
+			else
+			{
+				//邻接矩阵的第一个节点是我们的孩子节点，其他的节点是这个孩子节点的兄弟节点
+				q->nextSibling = p;
+			}//else
+			//q = p;
+			DFSTree(w->adjvex, p, visited);
+		}//if
+	}//for
+}
+

@@ -30,11 +30,13 @@ void Test2()
 	MGraphDG *G = new MGraphDG("resource2.txt");
 	cout << endl;
 	MGraphAL *GAL = new MGraphAL();
-	GAL->create("resource2.txt");
+	GAL->create("resource3.txt");
 	cout << "深度优先" << endl;
 	GAL->DFSTraverse();
 	cout << "\n广度优先" << endl;
 	GAL->BFSTraverse();
+	cout << "\n兄弟链表表示" << endl;
+	GAL->DFSForest();
 }
 
 int _tmain(int argc, _TCHAR* argv[])

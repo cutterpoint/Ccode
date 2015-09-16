@@ -12,6 +12,8 @@
 
 #include <string>
 
+#include "CSNode.h"
+
 class ArcNode
 {
 	friend class MGraphAL;
@@ -80,7 +82,18 @@ public:
 	 */
 	void BFSTraverse();
 
+	/**
+	 * 把我们的邻接表图，改造成一个以孩子兄弟链表的存储结构
+	 * 这个是基于无向图的深度优先遍历生成森林
+	 */
+	CSNode** DFSForest();
+
 private:
+	/**
+	 *这个函数的作用是从第V个顶点出发深度优先遍历图G，建立以T为根的生成树
+	 */
+	void DFSTree(int v, CSNode *p, bool *visited);
+
 	/**
 	 *  访问我们的这个节点
 	 */
