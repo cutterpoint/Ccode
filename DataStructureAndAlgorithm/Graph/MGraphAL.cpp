@@ -403,7 +403,33 @@ void MGraphAL::topologicalSort()
 		//当非空的时候，我们就进行相应的操作，一直下去，当弹出循环
 		//如果个数比顶点数还少的话，那么就，说明我们的图有回路
 		int i = s->top(); s->pop();
+		++count;
 		//输出相应的顶点
-		std::cout<<
+		std::cout << vertices[i].firstarc << "\t" << std::endl;
+		//把相应的连接的顶点入度减去这个节点出来的弧
+		ArcNode *p = vertices[i].firstarc;
+		if (p == nullptr)
+			break;
+		for (; p != nullptr; p = p->nextarc)
+		{
+			int k = p->adjvex;	//得到下一个对象的顶点位置
+			//减一
+			indegree[k]--;
+			//如果恰好变为0，那么就入栈
+			if (indegree[k] == 0)
+			{
+				s->push(k);
+			}//if
+		}//for
 	}//while
+
+	//最后如果没有统计全，那么就是会有回环
+	if (count < vexnum)
+	{
+		std::cout << "图中有回环" << std::endl;
+	}//if
+	else
+	{
+		std::cout << "OK" << std::endl;
+	}
 }

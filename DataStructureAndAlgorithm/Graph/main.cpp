@@ -37,6 +37,8 @@ void Test2()
 	GAL->BFSTraverse();
 	cout << "\n兄弟链表表示" << endl;
 	GAL->DFSForest();
+	cout << "\n进行拓扑排序" << endl;
+	GAL->topologicalSort();
 }
 
 int _tmain(int argc, _TCHAR* argv[])
