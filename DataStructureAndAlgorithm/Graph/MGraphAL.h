@@ -88,6 +88,11 @@ public:
 	 */
 	CSNode** DFSForest();
 
+	/**
+	 *  对我们的图进行拓扑排序
+	 */
+	void topologicalSort();
+
 private:
 	/**
 	 *这个函数的作用是从第V个顶点出发深度优先遍历图G，建立以T为根的生成树
@@ -125,9 +130,24 @@ private:
 	void initAdjacencyLink(std::string line);
 
 	/**
+	 *  初始化一个顶点的入度的数值
+	 */
+	void OneInDegree(int i);
+
+	/**
+	 *  求出我们所有顶点的所有入度
+	 */
+	void findInDegree();
+
+	/**
 	 *  定位我们的这个向量名称的位置
 	 */
 	int locateVex(std::string name);
+
+	/**
+	 *  我们的入度个数
+	 */
+	int indegree[MAX_VERTEX_NUM];
 
 	/**
 	 *  存放我们的顶点向量

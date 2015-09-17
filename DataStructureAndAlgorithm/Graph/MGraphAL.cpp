@@ -15,6 +15,7 @@
 #include <sstream>
 #include <iostream>
 #include <queue>
+#include <stack>
 
 
 ArcNode::~ArcNode()
@@ -343,3 +344,66 @@ void MGraphAL::DFSTree(int v, CSNode *r, bool *visited)
 	}//for
 }
 
+
+/**
+ *  初始化一个顶点的入度的数值
+ */
+void MGraphAL::OneInDegree(int i)
+{
+	ArcNode *p = vertices[i].firstarc;
+	if (p == nullptr)
+	{
+		return;
+	}//if
+
+	for (; p != nullptr; p = p->nextarc)
+	{
+		indegree[p->adjvex]++;	//把我们的入度个数++
+	}//for
+}
+
+/**
+ *  求出我们所有顶点的所有入度
+ */
+void MGraphAL::findInDegree()
+{
+	//首先初始化我们的数组
+	for (int i = 0; i < vexnum; ++i)
+	{
+		indegree[i] = 0;
+	}//for
+
+	for (int i = 0; i < vexnum; ++i)
+	{
+		this->OneInDegree(i);
+	}//for
+}
+
+/**
+ *  对我们的图进行拓扑排序
+ */
+void MGraphAL::topologicalSort()
+{
+	//首先初始化我们的入度数组
+	this->findInDegree();
+	//建立一个栈，用来保存，入度变为0了，也就是可以删除出去作为拓扑排序的位置了
+	std::stack<int> *s = new std::stack<int>();
+	//把初始的所有的0号入度顶点，入栈
+	for (int i = 0; i < vexnum; ++i)
+	{
+		if (indegree[i] == 0)
+		{
+			s->push(i);	//把i号压入
+		}//if
+	}//for
+
+	int count = 0;	//用来统计拓扑排序的结果又那些
+	while (!s->empty())
+	{
+		//当非空的时候，我们就进行相应的操作，一直下去，当弹出循环
+		//如果个数比顶点数还少的话，那么就，说明我们的图有回路
+		int i = s->top(); s->pop();
+		//输出相应的顶点
+		std::cout<<
+	}//while
+}
