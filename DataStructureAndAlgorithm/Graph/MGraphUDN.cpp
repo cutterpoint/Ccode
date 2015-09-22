@@ -214,7 +214,30 @@ void MGraphUDN::printMaxtrix()
  */
 int MGraphUDN::minimum()
 {
+	//当我们的closedge中的lowcost为0的时候，表示已经划入到集合中
+	//也就是说不用进行搜索查询了
+	int min = 0;
+	int result = -1;
+	for (int i = 0; i < vexnum; ++i)
+	{
+		if (closedge[i].lowcost > 0)
+		{
+			//还没有被并到集合中的话
+			if (min == 0)
+			{
+				//如果是第一个的话
+				min = closedge[i].lowcost;
+				result = i;
+			}//if
+			else
+			{
+				//比较大小
+				min = closedge[i].lowcost < min ? closedge[i].lowcost, result = i : min;
+			}//else
+		}//if
+	}//for
 
+	return result;
 }
 
 /**
@@ -226,19 +249,44 @@ void MGraphUDN::miniSpanTree_PRIM(std::string name)
 		return;
 	int k = locateVex(name);	//得到这个对象所在的位置
 	//初始化我们的最小生成树的存放最小路径的数组
-	memset(closedge, 0, vexnum);
+	for (int i = 0; i < vexnum; ++i)
+	{
+		closedge[i].lowcost = 0;
+		closedge[i].name = name;
+		closedge[i].adjvex = 0;
+	}//for
+
 	for (int i = 0; i < vexnum; ++i)
 	{
 		if (i != k)
 		{
 			closedge[i].lowcost = arcs[k][i];//从k到i的权重，初始化
 			closedge[i].name = name;	//从哪个节点出发到i的名字
+			closedge[i].adjvex = i;
 		}//if
 	}//for
 	closedge[k].lowcost = 0;	//0表示已经划入到我们的最小树的部分
 	//然后再剩下的节点中寻找最小权值，加入到最小生成树种，直到包括所有节点
 	for (int i = 1; i < vexnum; ++i)//也就是还要加入vexnum-1个节点
 	{
-		
+		//求得当前集合到其他位置最小的路径,对应的节点
+		k = minimum();	//得到最小的路径的位置
+		std::cout << "从" << closedge[k].name << "=>" << vexs[k] <<"\t路径大小:"<< closedge[k].lowcost << std::endl;
+		//然后我们把k号节点划入集合
+		closedge[k].lowcost = 0;
+		//从新初始化closedge
+		for (int i = 0; i < vexnum; ++i)
+		{
+			//遍历所有的节点，查看集合到相应的顶点的距离
+			//选出最小的,也就是把那个并入集合的那个节点到其他的距离，选出更小的
+			//也就是k到i是否更小
+			if (arcs[k][i] < closedge[i].lowcost)
+			{
+				//如果找到更小的
+				closedge[i].adjvex = i;
+				closedge[i].lowcost = arcs[k][i];
+				closedge[i].name = vexs[k];
+			}//if
+		}//for
 	}//for
 }

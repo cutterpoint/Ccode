@@ -19,10 +19,12 @@ using namespace std;
 
 void Test1()
 {
-	MGraphUDN *G = new MGraphUDN("resource1.txt");
+	MGraphUDN *G = new MGraphUDN("resource5.txt");
 	G->createUDN();
 	//输出矩阵
 	G->printMaxtrix();
+	//输出最小生成树
+	G->miniSpanTree_PRIM("v1");//参数表示从那个顶点开始
 }
 
 void Test2()
@@ -41,10 +43,11 @@ void Test2()
 	GAL->topologicalSort();
 }
 
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	Test1();
-	Test2();
+	//Test2();
 	return 0;
 }
 
