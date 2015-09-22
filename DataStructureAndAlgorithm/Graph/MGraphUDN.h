@@ -15,6 +15,33 @@
 #include <string>
 #include <iostream>
 
+/**
+* 用这个类来存放最小生成树的每个最短的路径
+*/
+class CloseDge
+{
+	friend class MGraphUDN;
+public:
+	CloseDge(){}
+	~CloseDge(){}
+private:
+	/**
+	*  到相应的节点的位置
+	*/
+	int adjvex;
+
+
+	/**
+	*  到这个节点的当前向量中最短的路径
+	*/
+	int lowcost;
+
+	/**
+	 * 我们节点的名字
+	 */
+	std::string name;
+};
+
 //我们的无向网类
 class MGraphUDN
 {
@@ -35,12 +62,18 @@ public:
 	 */
 	void printMaxtrix();
 
+	/**
+	 *  最小生成树
+	 */
+	void miniSpanTree_PRIM(std::string name);
+
 private:
 	std::string vexs[MAX_VERTEX_NUM];	//存放顶点
 	int arcs[MAX_VERTEX_NUM][MAX_VERTEX_NUM];//存放矩阵数组
 	int vexnum;	//顶点个数
 	int arcnum;		//弧的个数，也就是我们图的边数
 	std::string filename;	//我们资源文件名
+	CloseDge closedge[MAX_VERTEX_NUM];
 
 	/**
 	 * 我们用一个函数来确定我们这个顶点的位置
@@ -77,6 +110,12 @@ private:
 	 * 初始化我们的邻接矩阵
 	 */
 	void initMatrix(std::string v1, std::string v2, int weight);
+
+	/**
+	 *  在求最小生成树的时候，这个用来
+	 *  求出closedge中最小的那个节点位置
+	 */
+	int minimum();
 };
 
 #endif //_MGRAPHUDN_H_

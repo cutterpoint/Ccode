@@ -57,6 +57,7 @@ private:
 	ArcNode *firstarc;
 };
 
+
 class MGraphAL
 {
 public:

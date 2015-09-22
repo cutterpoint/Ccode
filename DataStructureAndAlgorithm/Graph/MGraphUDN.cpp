@@ -194,8 +194,8 @@ void MGraphUDN::initMatrix(std::string v1, std::string v2, int weight)
 }
 
 /**
-* 输出矩阵
-*/
+ * 输出矩阵
+ */
 void MGraphUDN::printMaxtrix()
 {
 	for (int i = 0; i < vexnum; ++i)
@@ -205,5 +205,40 @@ void MGraphUDN::printMaxtrix()
 			std::cout << arcs[i][j] << "\t";
 		}//for
 		std::cout << std::endl;
+	}//for
+}
+
+/**
+ *  在求最小生成树的时候，这个用来
+ *  求出closedge中最小的那个节点位置
+ */
+int MGraphUDN::minimum()
+{
+
+}
+
+/**
+ *  最小生成树
+ */
+void MGraphUDN::miniSpanTree_PRIM(std::string name)
+{
+	if (name == "")
+		return;
+	int k = locateVex(name);	//得到这个对象所在的位置
+	//初始化我们的最小生成树的存放最小路径的数组
+	memset(closedge, 0, vexnum);
+	for (int i = 0; i < vexnum; ++i)
+	{
+		if (i != k)
+		{
+			closedge[i].lowcost = arcs[k][i];//从k到i的权重，初始化
+			closedge[i].name = name;	//从哪个节点出发到i的名字
+		}//if
+	}//for
+	closedge[k].lowcost = 0;	//0表示已经划入到我们的最小树的部分
+	//然后再剩下的节点中寻找最小权值，加入到最小生成树种，直到包括所有节点
+	for (int i = 1; i < vexnum; ++i)//也就是还要加入vexnum-1个节点
+	{
+		
 	}//for
 }
