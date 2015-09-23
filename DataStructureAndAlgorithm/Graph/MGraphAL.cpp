@@ -39,6 +39,8 @@ MGraphAL::MGraphAL()
 MGraphAL::~MGraphAL()
 {
 	delete[] vertices;
+	delete[] ve;
+	delete[] vl;
 }
 
 /**
@@ -85,6 +87,50 @@ void MGraphAL::create(std::string filename)
 	in.close();
 }
 
+/**
+ *  创建我们的邻接表，带权值的
+ * 文件格式是：
+ *  4 7
+ * v1 v2 v3 v4
+ * v1:v2:7 v1:v3:2 v3:v1:3 v3:v4:4 v4:v1:5 v4:v2:6 v4:v3:1
+ */
+void MGraphAL::createWithWeight(std::string filename)
+{
+	if (filename == "")
+		throw std::exception("文件名为空");
+	std::ifstream in(filename);
+	if (!in.is_open())
+	{
+		throw std::exception("文件流打开失败");
+	}//if
+	std::string line;
+	int num = 1; //行数，用来控制输出
+	while (std::getline(in, line))
+	{
+		if (num == 1)
+		{
+			//第一行，初始化顶点个数和弧的个数
+			this->intiVAnum(line);
+			++num;
+		}//if
+		else if (num == 2)
+		{
+			//第二行初始化数组向量
+			this->initVertices(line);
+			++num;
+		}//else if
+		else
+		{
+			this->initAdjacencyLinkWithWeight(line);
+			++num;
+		}//else
+	}//while
+
+	//关闭文件流
+	in.clear();
+	in.close();
+}
+
 void MGraphAL::intiVAnum(std::string line)
 {
 	if (line == "")
@@ -120,6 +166,22 @@ void MGraphAL::initAdjacencyOne(std::string record)
 	vertices[i].firstarc = p;
 }
 
+void MGraphAL::initAdjacencyOneWithWeight(std::string record)
+{
+	if (record == "")
+		return;
+	//一条记录 v1:v2:7
+	std::string name1 = record.substr(0, 2);
+	std::string name2 = record.substr(3, 2);
+	int weight = atoi(record.substr(6, 1).c_str());
+	int i = locateVex(name1); int j = locateVex(name2);
+	ArcNode *p = new ArcNode();
+	p->adjvex = j;	//这个弧指向的下一个节点
+	p->weight = weight;	//权值
+	p->nextarc = vertices[i].firstarc;	//把这个节点加入到这个链表的头
+	vertices[i].firstarc = p;
+}
+
 /**
  *  定位我们的这个向量名称的位置
  */
@@ -152,9 +214,22 @@ void MGraphAL::initAdjacencyLink(std::string line)
 	}//while
 }
 
+void MGraphAL::initAdjacencyLinkWithWeight(std::string line)
+{
+	if (line == "")
+		return;
+	//我们把得到的这一行数据分开
+	std::stringstream ss(line);
+	std::string record;
+	while (ss >> record)
+	{
+		this->initAdjacencyOneWithWeight(record);
+	}//while
+}
+
 /**
-*  对我们的图进行深度优先遍历
-*/
+ *  对我们的图进行深度优先遍历
+ */
 void MGraphAL::DFSTraverse()
 {
 	bool *visited = new bool[vexnum];
@@ -432,5 +507,83 @@ void MGraphAL::topologicalSort()
 	{
 		std::cout << "OK" << std::endl;
 	}
+}
+
+
+/**
+ *  求我们图的各个节点的最早发生时间
+ *	t是用来存放我们的拓扑排序的，用栈，输出的时候就是逆序
+ */
+bool MGraphAL::topologicalOrder(std::stack<int> *t)
+{
+	//首先初始化t
+	t = new std::stack<int>();
+	int count = 0; //用来计数
+	memset(ve, 0, vexnum); //把最早发生时间初始化为0
+	//建立栈S，对所有的0入度节点进行入栈
+	std::stack<int> *s = new std::stack<int>();
+	this->findInDegree();	//初始化所有的入度
+	for (int i = 0; i < vexnum; ++i)
+	{
+		if (indegree[i] == 0)
+		{
+			s->push(i);
+		}//if
+	}//for
+	//对0入度的节点，出栈，
+	while (!s->empty())
+	{
+		int topological = s->top(); s->pop();
+		//t存放相应的拓扑数列
+		t->push(topological);
+		++count;	//如果计数统计的节点最后少于我们的节点数的话说明有回路
+		//并遍历节点指向的节点,求出指向节点的最早发生时间
+		ArcNode *p = vertices[topological].firstarc;
+		if (p == nullptr)	//如果没有指向的节点的话，那么就跳出当前循环
+			continue;
+		for (; p != nullptr; p = p->nextarc)
+		{
+			int k = p->adjvex;	//我们节点出度的对象
+			//把指向的那个节点的入度减少一个
+			if (--indegree[k] == 0)
+			{
+				//如果变为0，那么就压栈进入
+				s->push(k);
+			}//if
+			//求最早发生的时间
+			if (ve[topological] + p->weight > ve[k])
+			{
+				ve[k] = ve[topological] + p->weight;
+			}//if
+		}//for
+	}//while
+
+	//最后判断循环的结果是否已经含有回路
+	if (count < vexnum)
+	{
+		return false;
+	}//if
+	else
+	{
+		return true;
+	}//else
+}
+
+/**
+ *  求关键路径
+ */
+void MGraphAL::criticalPath()
+{
+	std::stack<int> *t = new std::stack<int>();
+	//判断是否有关键路径
+	if (!this->topologicalOrder(t))
+	{
+		throw std::exception("此图含有回环，不存在关键路径");
+	}//if
+	//初始化vl,第三个参数是按字节分划分的
+	memcpy(vl, ve, sizeof(ve));
+	//求最晚开始时间vl
+
+	//输出关键路径
 }
 

@@ -11,6 +11,7 @@
 #define _MGRAPHAL_H_
 
 #include <string>
+#include <stack>
 
 #include "CSNode.h"
 
@@ -36,6 +37,11 @@ private:
 	 *  弧的信息，可以是权值，这里用string代替
 	 */
 	std::string info;
+
+	/**
+	 * 权值
+	 */
+	int weight;
 };
 
 class VNode
@@ -74,6 +80,11 @@ public:
 	void create(std::string filename);
 
 	/**
+	 *  创建我们的邻接表，带权值的
+	 */
+	void createWithWeight(std::string filename);
+
+	/**
 	 *  对我们的图进行深度优先遍历
 	 */
 	void DFSTraverse();
@@ -94,7 +105,18 @@ public:
 	 */
 	void topologicalSort();
 
+	/**
+	 *  求关键路径
+	 */
+	void criticalPath();
+
 private:
+	/**
+	 *  求我们图的各个节点的最早发生时间
+	 *	t是用来存放我们的拓扑排序的，用栈，输出的时候就是逆序
+	 */
+	bool topologicalOrder(std::stack<int> *t);
+
 	/**
 	 *这个函数的作用是从第V个顶点出发深度优先遍历图G，建立以T为根的生成树
 	 */
@@ -126,9 +148,19 @@ private:
 	void initAdjacencyOne(std::string record);
 
 	/**
+	 *  初始化我们的邻接表的一条弧,带权值
+	 */
+	void initAdjacencyOneWithWeight(std::string record);
+
+	/**
 	 *  初始化我们的邻接表的弧
 	 */
 	void initAdjacencyLink(std::string line);
+
+	/**
+	 *  初始化我们的邻接表的弧,带权值
+	 */
+	void initAdjacencyLinkWithWeight(std::string line);
 
 	/**
 	 *  初始化一个顶点的入度的数值
@@ -165,6 +197,15 @@ private:
 	 */
 	int arcnum;
 
+	/**
+	 * 存放各个顶点最早发送时间
+	 */
+	int ve[MAX_VERTEX_NUM];
+
+	/**
+	 *  存放各个顶点最晚开始时间
+	 */
+	int vl[MAX_VERTEX_NUM];
 };
 
 #endif //MGRAPHAL_H_
