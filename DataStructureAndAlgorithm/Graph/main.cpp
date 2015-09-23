@@ -41,13 +41,22 @@ void Test2()
 	GAL->DFSForest();
 	cout << "\n进行拓扑排序" << endl;
 	GAL->topologicalSort();
+	cout << "\n求关键路径" << endl;
+	MGraphAL *GAL2 = new MGraphAL();
+	GAL2->createWithWeight("resource4.txt");
+	GAL2->criticalPath();
+	cout << "\n进行拓扑排序" << endl;
+	GAL2->topologicalSort();
 }
 
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	Test1();
-	//Test2();
+	cout << "===============================================" << endl;
+	cout << "===============================================" << endl;
+	cout << "===============================================" << endl;
+	Test2();
 	return 0;
 }
 

@@ -17,7 +17,6 @@
 #include <queue>
 #include <stack>
 
-
 ArcNode::~ArcNode()
 {
 	delete nextarc;
@@ -480,7 +479,7 @@ void MGraphAL::topologicalSort()
 		int i = s->top(); s->pop();
 		++count;
 		//输出相应的顶点
-		std::cout << vertices[i].firstarc << "\t" << std::endl;
+		std::cout << vertices[i].name << "\t" << std::endl;
 		//把相应的连接的顶点入度减去这个节点出来的弧
 		ArcNode *p = vertices[i].firstarc;
 		if (p == nullptr)
@@ -516,10 +515,8 @@ void MGraphAL::topologicalSort()
  */
 bool MGraphAL::topologicalOrder(std::stack<int> *t)
 {
-	//首先初始化t
-	t = new std::stack<int>();
 	int count = 0; //用来计数
-	memset(ve, 0, vexnum); //把最早发生时间初始化为0
+	memset(ve, 0, vexnum * sizeof(int)); //把最早发生时间初始化为0
 	//建立栈S，对所有的0入度节点进行入栈
 	std::stack<int> *s = new std::stack<int>();
 	this->findInDegree();	//初始化所有的入度
@@ -558,6 +555,7 @@ bool MGraphAL::topologicalOrder(std::stack<int> *t)
 		}//for
 	}//while
 
+	delete s;
 	//最后判断循环的结果是否已经含有回路
 	if (count < vexnum)
 	{
@@ -581,9 +579,60 @@ void MGraphAL::criticalPath()
 		throw std::exception("此图含有回环，不存在关键路径");
 	}//if
 	//初始化vl,第三个参数是按字节分划分的
-	memcpy(vl, ve, sizeof(ve));
+	for (int i = 0; i < vexnum; ++i)
+	{
+		vl[i] = ve[vexnum - 1];
+	}//for
 	//求最晚开始时间vl
-
+	while (!t->empty())
+	{
+		//对逆序拓扑节点求最晚开始时间
+		int j = t->top(); t->pop();	//当前节点
+		//根据其出度对象的最晚开始时间，求当前节点的最晚开始时间
+		for (ArcNode *p = vertices[j].firstarc; p != nullptr; p = p->nextarc)
+		{
+			int k = p->adjvex;	//当前指向的节点位置
+			int dut = p->weight;	//当前弧的权值
+			if (vl[k] - dut < vl[j])
+			{
+				//如果节点k减去弧的时间到达当前节点的开始时间最小的话
+				//也就是当前节点在这个时间开始是最逼近所有后序节点立马可以执行的时间
+				vl[j] = vl[k] - dut;
+			}//if
+		}//for
+	}//while
 	//输出关键路径
+	//关键路径就是ve和vl相等的节点
+	for (int i = 0; i < vexnum; ++i)
+	{
+		//但是我们需要输出所有的关键路径,那么我们就需要根据其后序的节点减去弧之后的值是否相等
+		for (ArcNode *p = vertices[i].firstarc; p != nullptr; p = p->nextarc)
+		{
+			int k = p->adjvex;	//下一个节点的位置
+			//得到当前节点的最早开始时间
+			int ee = ve[i];
+			//得到下一个节点的最晚开始时间-权值之后的值，用来比较
+			int el = vl[k] - p->weight;
+			char tag = (ee == el) ? '*' : ' ';	//相等就是关键路径
+			std::cout << vertices[i].name << "=>" << vertices[k].name << "\t权值:" << p->weight << "\t" << tag << std::endl;
+		}//for
+	}//for
+
+	//输出最先开始时间
+	std::cout << "最先开始时间" << std::endl;
+	for (int i = 0; i < vexnum; ++i)
+	{
+		std::cout << ve[i] << "\t";
+	}//for
+	std::cout << std::endl;
+	//输出最先开始时间
+	std::cout << "最晚开始时间" << std::endl;
+	for (int i = 0; i < vexnum; ++i)
+	{
+		std::cout << vl[i] << "\t";
+	}//for
+	std::cout << std::endl;
+
+	delete t;
 }
 
