@@ -72,7 +72,7 @@ private:
 	int arcs[MAX_VERTEX_NUM][MAX_VERTEX_NUM];//存放矩阵数组
 	int vexnum;	//顶点个数
 	int arcnum;		//弧的个数，也就是我们图的边数
-	std::string filename;	//我们资源文件名
+	std::string filename;	//我们资源文件名 
 	CloseDge closedge[MAX_VERTEX_NUM];
 
 	/**

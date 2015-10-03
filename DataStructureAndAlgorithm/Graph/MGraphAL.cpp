@@ -380,7 +380,7 @@ CSNode** MGraphAL::DFSForest()
 }
 
 /**
- *这个函数的作用是从第V个顶点出发深度优先遍历图G，建立以T为根的生成树
+ * 这个函数的作用是从第V个顶点出发深度优先遍历图G，建立以T为根的生成树
  * 深度优先遍历
  */
 void MGraphAL::DFSTree(int v, CSNode *r, bool *visited)
