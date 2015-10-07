@@ -22,7 +22,7 @@ public:
 	/**
 	 *  删除二叉排序树中的节点
 	 */
-	bool deleteBST(int elem);
+	bool deleteBST(BinaryTreeNode *p, int elem);
 
 	/**
 	 * 二叉排序的插入算法
