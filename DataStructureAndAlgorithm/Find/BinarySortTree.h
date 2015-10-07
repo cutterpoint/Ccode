@@ -20,6 +20,11 @@ public:
 	~BinarySortTree();
 
 	/**
+	 *  删除二叉排序树中的节点
+	 */
+	bool deleteBST(int elem);
+
+	/**
 	 * 二叉排序的插入算法
 	 */
 	bool insertBST(int elem);
@@ -35,6 +40,11 @@ private:
 	 * 我们二叉排序树的根节点
 	 */
 	BinaryTreeNode *root;
+
+	/**
+	 * 在树中删除这个节点
+	 */
+	bool delNode(BinaryTreeNode *p);
 };
 
 #endif //_BINARY_SORT_TREE_H_
