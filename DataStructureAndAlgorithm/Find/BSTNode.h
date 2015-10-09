@@ -4,22 +4,30 @@
 
 文件：BinaryTreeNode.h
 
-功能：实现我们二叉树节点
+功能：二叉排序树的数据结构
 
 ****************************************************************************/
 
-#ifndef _BINARY_TREE_NODE_
-#define _BINARY_TREE_NODE_
+#ifndef _BSTNODE_H_
+#define _BSTNODE_H_
 
-class BinaryTreeNode
+class BSTNode
 {
-	friend class BinarySortTree;
-public:
-	BinaryTreeNode();
-	~BinaryTreeNode();
 private:
+	/**
+	 * 二叉排序树节点的数据信息
+	 */
 	int data;
-	BinaryTreeNode *lchild, *rchild;	//左右孩子
+
+	/**
+	 *  节点的平衡因子
+	 */
+	int bf;
+
+	/**
+	 *  节点的左右子树
+	 */
+	BSTNode *lchild, *rchild;
 };
 
-#endif //_BINARY_TREE_NODE_
+#endif //_BSTNODE_H_
