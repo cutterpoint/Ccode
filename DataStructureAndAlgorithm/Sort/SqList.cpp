@@ -48,3 +48,38 @@ void SqList::insertSort(SqList *p)
 		}//if
 	}//for
 }
+
+/**
+ *  对顺序表的折半排序
+ */
+void SqList::bInsertSort(SqList *p)
+{
+	if (p == nullptr)
+		return;
+	//遍历表，进行插入排序,0号不用插入
+	for (int i = 2; i < p->length; ++i)
+	{
+		//设定一个哨兵
+		p->r[0] = p->r[i];
+		//查找插入的位置
+		int low = 1, high = i - 1;
+		while (low <= high)
+		{
+			//折半
+			int m = (low + high) / 2;
+			if (p->r[0] < p->r[m])
+			{
+				high = m - 1;
+			}//if
+			else
+			{
+				low = m + 1;
+			}//if
+		}//while
+
+		//找到位置之后，后移数据
+		for (int j = i - 2; j >= high; --j)
+			p->r[j + 1] = p->r[j];
+		p->r[high + 1] = p->r[0];	//插入数据
+	}//for
+}

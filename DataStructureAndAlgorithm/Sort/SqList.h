@@ -23,6 +23,11 @@ public:
 	 */
 	void insertSort(SqList *p);
 
+	/**
+	 *  对顺序表的折半排序
+	 */
+	void bInsertSort(SqList *p);
+
 private:
 	/**
 	 *  存放数据的类型
