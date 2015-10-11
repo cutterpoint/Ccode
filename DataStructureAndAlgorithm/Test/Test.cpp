@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include <string>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -95,12 +96,118 @@ void Test3()
 	}
 }
 
+void test4()
+{
+	long x = 19 / 5 * 2;
+	cout << x << endl;
+}
+
+int foo()
+{
+	static int n = 0;
+	return ++n;
+}
+
+void test5()
+{
+	for (int i = 0; i < 5; ++i)
+		cout << foo() << endl;
+}
+
+struct DATA
+{
+	char c;
+	int n;
+};
+
+void test6()
+{
+	DATA *p = new DATA[100];
+	delete[] p;
+	printf("%d", sizeof(DATA));
+}
+
+void test7()
+{
+	int a = 123;
+	const int &b = a;
+	a += b;
+	cout << b << endl;
+}
+
+void test8()
+{
+	int n = 0;
+	cout << n << endl;
+}
+
+void test9()
+{
+	int *p = new int;
+	*p = 3;
+}
+
+void test10()
+{
+	int x = 0x30;
+	printf("%d", x);
+}
+
+enum{RED, GREEN, BLUE, WHITE};
+
+void test11()
+{
+	cout << BLUE << endl;
+}
+
+void test12()
+{
+	vector<long> x;
+	vector<long>::iterator it = x.begin() + 2;
+	x.resize(20);
+	*it = 9;
+	cout << x[0] << x[1] << x[2] << endl;
+}
+
+struct POINT
+{
+	int x;
+	int y;
+};
+
+void createpoints(POINT *p, int nCount)
+{
+	if (nCount <= 0)
+		p = nullptr;
+	else
+		p = new POINT[nCount];
+}
+
+void test13()
+{
+	POINT *p = nullptr;
+	const int nCount = 64;
+	createpoints(p, nCount);
+	for (unsigned int i = 0; i <= nCount; ++i)
+	{
+		cout << "{" << p->x;
+	}//for
+}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//Test2();
 	//Test();
-	Test3();
+	//Test3();
+	//test4();
+	//test5();
+	//test6();
+	//test7();
+	//test8();
+	//test10();
+	//test11();
+	//test12();
+	test13();
 	return 0;
 }
 

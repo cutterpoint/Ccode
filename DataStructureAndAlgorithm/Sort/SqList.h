@@ -18,6 +18,10 @@ public:
 	SqList();
 	~SqList();
 
+	/**
+	 *  ÷±Ω”≤Â»Î≈≈–Ú
+	 */
+	void insertSort(SqList *p);
 
 private:
 	/**
