@@ -83,3 +83,62 @@ void SqList::bInsertSort(SqList *p)
 		p->r[high + 1] = p->r[0];	//插入数据
 	}//for
 }
+
+/**
+ *  进行一次快排
+ */
+int SqList::partition(SqList *l, int low, int high)
+{
+	//我们以0号为基准，进行分开
+	l->r[0] = l->r[low];
+	int key = l->r[0];
+	while (low < high)
+	{
+		while (low < high && key <= l->r[high])
+			--high;
+		swap(l, low, high);
+		while (low < high && key >= l->r[low])
+			++low;
+		swap(l, low, high);
+	}//while
+	l->r[low] = l->r[0];
+
+	return low;
+}
+
+/**
+ *  交换两个数据
+ */
+void SqList::swap(SqList *l, int first, int second)
+{
+	if (first < 0 || first >= l->length || second < 0 || second >= l->length)
+		return;
+
+	int temp = l->r[first];
+	l->r[first] = l->r[second];
+	l->r[second] = temp;
+}
+
+/**
+ *  快排首先
+ */
+void SqList::quikSortCore(SqList *l, int low, int high)
+{
+	if (low < high)
+	{
+		int mid = partition(l, low, high);
+		quikSortCore(l, low, mid - 1);
+		quikSortCore(l, mid + 1, high);
+	}//if
+}
+
+/**
+ *  快速排序
+ */
+void SqList::quikSort(SqList *p)
+{
+	if (p == nullptr)
+		return;
+	int low = 1, high = p->length - 1;
+	quikSortCore(p, low, high);
+}
