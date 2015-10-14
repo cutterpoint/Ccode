@@ -15,6 +15,10 @@ void test()
 	int j = 0;
 }
 
+void test2()
+{
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	test();

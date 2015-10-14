@@ -194,6 +194,36 @@ void test13()
 	}//for
 }
 
+class Test14
+{
+	friend void test14();
+public:
+	Test14(int index)
+	{
+		this->length = index;
+		i = new int[index];
+	}
+
+	~Test14()
+	{
+		cout << "huishou" << endl;
+		delete[] i;
+	}
+private:
+	int *i;
+	int length;
+};
+
+void test14()
+{
+	Test14 *t = new Test14(10);
+	t->i[0] = 99;
+	cout << t->i[0] << endl;
+	delete t;
+	int *a = new int(99);
+	delete[] a;
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//Test2();
@@ -206,8 +236,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	//test8();
 	//test10();
 	//test11();
-	//test12();
-	test13();
+	//test12();test13();
+	test14();
 	return 0;
 }
 
