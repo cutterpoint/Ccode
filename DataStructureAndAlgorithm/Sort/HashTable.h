@@ -12,6 +12,7 @@
 
 class Data
 {
+	friend class HashTable;
 public:
 	Data();
 	Data(int length, int count = 0);
@@ -46,7 +47,7 @@ public:
 	 *  k是查找的数据
 	 *	c计算冲突的次数
 	 */
-	int searchHash(int k, int c);
+	int searchHash(int k, int &c);
 private:
 	/**
 	 *  哈希表的数据存放类
@@ -59,6 +60,16 @@ private:
 	 *	没有找到，但是找到了插入的位置返回0
 	 */
 	int search_OK;
+
+	/**
+	 *  哈希函数
+	 */
+	int hash(int k);
+
+	/**
+	 *  线性探测在散列
+	 */
+	int collision(int p, int c);
 };
 
 #endif //_HASH_TABLE_H_

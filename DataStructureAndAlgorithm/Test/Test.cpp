@@ -224,6 +224,16 @@ void test14()
 	delete[] a;
 }
 
+void test15()
+{
+	int *k = new int[99];
+	for (int i = 0; i < 99; ++i)
+	{
+		if (k[i] == NULL)
+		cout << k[i] << endl;
+	}
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//Test2();
@@ -236,8 +246,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	//test8();
 	//test10();
 	//test11();
-	//test12();test13();
-	test14();
+	//test12();test13();test14();
+	test15();
 	return 0;
 }
 
