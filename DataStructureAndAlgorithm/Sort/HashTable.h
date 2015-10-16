@@ -48,6 +48,11 @@ public:
 	 *	c计算冲突的次数
 	 */
 	int searchHash(int k, int &c);
+
+	/**
+	 *  哈希表的插入算法
+	 */
+	int insertHash(int e);
 private:
 	/**
 	 *  哈希表的数据存放类
