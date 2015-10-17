@@ -11,10 +11,13 @@
 #ifndef _SQLIST_H_
 #define _SQLIST_H_
 
+class Heap;
+
 class SqList
 {
+	friend class Heap;
 public:
-	const static int MAXSIZE = 20;
+	const static int MAXSIZE = 200;
 	SqList();
 	~SqList();
 
