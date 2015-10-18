@@ -14,7 +14,7 @@
 Data::Data()
 {}
 
-Data::Data(int length, int ct = 0)
+Data::Data(int length, int ct)
 {
 	this->sizeindex = length;
 	this->elem = new int[sizeindex];
@@ -57,9 +57,14 @@ int HashTable::collision(int k, int c)
 	return (k + c) % h->sizeindex;
 }
 
+/**
+ *  得到我们的哈希表的查找到的位置，或者下一个插入的位置
+ *  k是查找的数据
+ *	c计算冲突的次数
+ */
 int HashTable::searchHash(int k, int &c)
 {
-	int p = hash(k); int c = 0;
+	int p = hash(k); c = 0;
 	while (h->elem[p] != -1 && h->elem[p] != k)
 	{
 		//这个时候就是这个位置已经有数据，并且不是k

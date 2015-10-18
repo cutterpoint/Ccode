@@ -16,6 +16,7 @@ class Heap;
 class SqList
 {
 	friend class Heap;
+	friend class MergeSort;
 public:
 	const static int MAXSIZE = 200;
 	SqList();
